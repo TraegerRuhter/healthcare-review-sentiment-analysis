@@ -5,59 +5,68 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
-}
-
-h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    font-size: 40px;
-    text-align: left; 
-    max-width: 350px;
-    border-left: 3px solid white;
-    padding-right: 140px;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     height: 100vh;
     padding: 20vh 20px 20px;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 40px;
+    text-align: left;
+    max-width: 350px;
+    border-left: 3px solid white;
+    padding-right: 140px;
 }
 
 textarea {
-    width: 100%; 
-    max-width: 350px; 
+    width: 100%;
+    max-width: 350px;
     height: 100px;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     background-color: #2c2c2e;
     color: #fff;
     resize: none;
     margin-bottom: 20px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 100px;
 }
 
 button {
     padding: 10px 20px;
     border-radius: 10px;
     border: none;
-    background-color: #007bff;
+    background-color: #437fffbd;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0057b3bd;
+    font-weight: bold;
 }
 
 #result {
-    margin-top: 20px;
-    text-align: center;
+    margin-bottom: 10px;
+}
+
+#pieChart {
+    max-width: 1000px;
+    max-height: 400px;
+    margin: 2px auto;
+    color: #fff;
 }
 
 
