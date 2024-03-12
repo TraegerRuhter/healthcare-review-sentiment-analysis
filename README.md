@@ -1,15 +1,15 @@
-##Healthcare Sentiment Analysis
+ ## Healthcare Sentiment Analysis
 Welcome to the Healthcare Sentiment Analysis project! This repository contains code for a sentiment analysis model tailored specifically for analyzing sentiments in healthcare-related text data.
 
-##Overview
+## Overview
 Sentiment analysis plays a crucial role in understanding the opinions, emotions, and attitudes of patients, caregivers, and healthcare professionals towards healthcare services, facilities, and experiences. The goal of this project is to develop a robust sentiment analysis model that can accurately classify sentiments expressed in hospital reviews, patient feedback, medical forums, and other healthcare-related texts.
 
-##Key Features
+## Key Features
 Sentiment Classification: The model is capable of classifying sentiments into predefined categories such as positive, negative, or mixed sentiments.
 Fine-tuned for Healthcare: Trained on a diverse dataset of healthcare-related text data, the model is fine-tuned to capture nuances specific to the healthcare domain, ensuring accurate sentiment analysis.
 Easy Integration: Seamlessly integrate the model into your applications, platforms, or workflows using Hugging Face's easy-to-use APIs and model hub.
 High Accuracy: Rigorously evaluated and tested, the model achieves high accuracy in sentiment classification across various healthcare contexts, enabling robust analysis and decision-making.
-Usage
+## Usage
 Training the Model
 To train the sentiment analysis model:
 
