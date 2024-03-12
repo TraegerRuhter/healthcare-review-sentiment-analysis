@@ -17,6 +17,19 @@ async function query(data) {
 
 // Event listener for the analyze button
 analyzeBtn.addEventListener('click', async () => {
+    performAnalysis();
+});
+
+// event listener for the enter key
+textInput.addEventListener('keypress', async (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        performAnalysis();
+    }
+});
+
+// Function to perform the sentiment analysis
+async function performAnalysis() {
     const text = textInput.value;
     if (text.trim() === '') {
         result.innerHTML = '<p>Please enter some text.</p>';
@@ -34,34 +47,10 @@ analyzeBtn.addEventListener('click', async () => {
         console.error('Error:', error);
         result.innerHTML = '<p>An error occurred while analyzing the sentiment. Please try again.</p>';
     }
-});
-
-textInput.addEventListener('keypress', async (event) => {
-    if (event.key === 'Enter') { // Check if the pressed key is 'Enter'
-        event.preventDefault(); // Prevent default Enter key action
-
-        const text = textInput.value;
-        if (text.trim() === '') {
-            result.innerHTML = '<p>Please enter some text.</p>';
-            return;
-        }
-        result.innerHTML = '<p>Loading...</p>';
-
-        try {
-            const apiResponse = await query({ inputs: text });
-            console.log('API Response:', apiResponse);
-
-            result.innerHTML = '';
-            createPieChart(apiResponse[0]);
-        } catch (error) {
-            console.error('Error:', error);
-            result.innerHTML = '<p>An error occurred while analyzing the sentiment. Please try again.</p>';
-        }
-    }
-});
-
+}
 
 let pieChart = null; // Global variable to hold the chart instance
+
 function createPieChart(data) {
     // Check if data is valid and not empty
     if (!data || !Array.isArray(data) || data.length === 0) {
@@ -69,47 +58,25 @@ function createPieChart(data) {
         result.innerHTML = '<p>An error occurred while analyzing the sentiment. Please try again.</p>';
         return;
     }
-    // Get the canvas element and its context to draw the chart
+
+    // Get the canvas element and its context
     const ctx = document.getElementById('pieChart').getContext('2d');
 
-    // Destroy the existing chart instance if it exists
+    // Destroy existing chart instance if it exists
     if (pieChart) {
         pieChart.destroy();
     }
 
-    // Extract labels and scores from the data
+    // Extract labels and scores from data
     const labels = data.map(item => item.label);
     const scores = data.map(item => item.score);
 
-    // Calculate the total score to compute percentages
+    // Calculate total score for percentages
     const totalScore = scores.reduce((acc, value) => acc + value, 0);
 
-    // Assign colors based on the label
-    const backgroundColors = labels.map(label => {
-        switch (label.toLowerCase()) {
-            case 'positive':
-                return 'rgba(54, 162, 235, 0.5)'; // blue
-            case 'mixed':
-                return 'rgba(153, 102, 255, 0.5)'; // purple
-            case 'negative':
-                return 'rgba(255, 99, 132, 0.5)'; // red
-            default:
-                return 'rgba(201, 203, 207, 0.5)'; // grey for undefined labels
-        }
-    });
-
-    const borderColors = labels.map(label => {
-        switch (label.toLowerCase()) {
-            case 'positive':
-                return 'rgba(54, 162, 235, 1)'; // blue
-            case 'mixed':
-                return 'rgba(153, 102, 255, 1)'; // purple
-            case 'negative':
-                return 'rgba(255, 99, 132, 1)'; // red
-            default:
-                return 'rgba(201, 203, 207, 1)'; // grey for undefined labels
-        }
-    });
+    // Assign colors based on label
+    const backgroundColors = assignColors(labels);
+    const borderColors = assignColors(labels, true);
 
     // Create the pie chart
     pieChart = new Chart(ctx, {
@@ -134,16 +101,18 @@ function createPieChart(data) {
                     labels: {
                         color: 'white', // Set the legend labels to white
                         font: {
-                            color: 'white',
-                            size: 12
+                            size: 15
                         },
                         generateLabels: function (chart) {
-                            return chart.data.labels.map((label, index) => {
-                                const value = chart.data.datasets[0].data[index];
-                                const percentage = Math.round((value / totalScore) * 100); // Round to nearest full percent
+                            const data = chart.data;
+                            return data.labels.map((label, index) => {
+                                const value = data.datasets[0].data[index];
+                                const percentage = Math.round((value / totalScore) * 100); // Round to nearest percent
                                 return {
-                                    text: `${label}: ${percentage}%`, // Include rounded percentage in label
-                                    fillStyle: chart.data.datasets[0].backgroundColor[index],
+                                    text: `${label}: ${percentage}%`, 
+                                    fillStyle: data.datasets[0].backgroundColor[index],
+                                    fontColor: 'white',
+                                    fontStyle: 'bold',
                                 };
                             });
                         }
@@ -167,4 +136,20 @@ function createPieChart(data) {
         }
     });
     window.scrollBy(0, 120);
+}
+
+// Function to assign colors based on sentiment label
+function assignColors(labels, isBorderColor = false) {
+    return labels.map(label => {
+        switch (label.toLowerCase()) {
+            case 'positive':
+                return isBorderColor ? 'rgba(54, 162, 235, 1)' : 'rgba(54, 162, 235, 0.5)';
+            case 'mixed':
+                return isBorderColor ? 'rgba(153, 102, 255, 1)' : 'rgba(153, 102, 255, 0.5)';
+            case 'negative':
+                return isBorderColor ? 'rgba(255, 99, 132, 1)' : 'rgba(255, 99, 132, 0.5)';
+            default:
+                return isBorderColor ? 'rgba(201, 203, 207, 1)' : 'rgba(201, 203, 207, 0.5)';
+        }
+    });
 }

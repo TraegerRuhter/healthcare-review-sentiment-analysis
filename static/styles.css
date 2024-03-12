@@ -1,5 +1,8 @@
 body {
-    background-color: #1c1c1e;
+    background-image: url('../media/bg.png');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
     color: #fff;
     margin: 0;
@@ -12,7 +15,7 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    padding: 20vh 20px 20px;
+    padding: 10vh 20px 20px;
     max-width: 350px;
     margin: 0 auto;
 }
@@ -66,7 +69,6 @@ button:hover {
     max-width: 1000px;
     max-height: 400px;
     margin: 2px auto;
-    color: #fff;
 }
 
 
